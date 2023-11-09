@@ -1,57 +1,35 @@
-from django.shortcuts import render
+# views.py
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from .models import Task
-from .forms import TaskForm
-from django.shortcuts import redirect
-from django.views.decorators.csrf import csrf_exempt
-from user_agents import parse
-from django.http import HttpResponse
+from .serializers import TaskSerializer
 from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
-from django.utils.html import mark_safe
 
-@csrf_exempt
-def index(request):
-    tasks = Task.objects.all()
-    form = TaskForm()
+class TaskList(APIView):
+    def get(self, request):
+        tasks = Task.objects.all()
+        serializer = TaskSerializer(tasks, many=True)
+        return Response(serializer.data)
 
-    user_agent = request.META.get('HTTP_USER_AGENT', '')
-    if str(user_agent) == 'opensesame':
-        return HttpResponse('THE ANSWER TO THIS QUESTION IS "devotedraspberries"')
+    def post(self, request):
+        serializer = TaskSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    return render(request, 'index.html', {'tasks': tasks, 'form': form, 'browser': parse(user_agent).browser.family })
+class TaskDetail(APIView):
 
-@csrf_exempt
-def add_task(request):
-    if request.method == 'POST':
-        form = TaskForm(request.POST)
-        if form.is_valid():
-            # Use mark_safe to prevent HTML escaping
-            task = form.save(commit=False)
-            task.description = mark_safe(form.cleaned_data['description'])
-            task.save()
-    return redirect('index')
-@csrf_exempt
-def toggle_task(request, task_id):
-    task = Task.objects.get(pk=task_id)
-    task.completed = not task.completed
-    task.save()
-    return redirect('index')
+    def delete(self, request, task_id):
+        task = get_object_or_404(Task, pk=task_id)
+        task.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-@csrf_exempt
-def delete_task(request, task_id):
-    task = Task.objects.get(pk=task_id)
-    task.delete()
-    return redirect('index')
+class TaskToggle(APIView):
 
-@csrf_exempt
-def edit_task(request, task_id):
-    task = get_object_or_404(Task, pk=task_id)
-
-    if request.method == 'POST':
-        old_description = task.description
-        new_description = request.POST.get('description')
-        task.description = new_description
+    def post(self, request, task_id):
+        task = get_object_or_404(Task, pk=task_id)
+        task.completed = not task.completed
         task.save()
-        return JsonResponse({'message': f'Task updated from [{old_description}] to [{new_description}] successfully. The secret keyword for this question is ravenousram'})
-
-    return JsonResponse({'message': 'POST requests are only accepted to edit tasks at this endpoint'}, status=400)
+        return Response(TaskSerializer(task).data)
