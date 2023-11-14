@@ -8,7 +8,7 @@
 ![screenshot for adding interpreter](readme_assets/add-interpreter.PNG)
 5) Choose the default settings and click OK
 ![screenshot for virtualenv settings](readme_assets/confirm-interpreter.PNG)
-6) Then, you can install dependencies using PyCharm (django and python-decouple). Or, you can use the command line (`pip install django python-decouple`)
+6) Then, you can install dependencies using `pip install -r requirements.txt`
 ![screenshot for adding dependencies](readme_assets/add-dependencies.png)
 7) Create a run configuration:
 ![edit run configs](readme_assets/edit-run-configuration.png)
