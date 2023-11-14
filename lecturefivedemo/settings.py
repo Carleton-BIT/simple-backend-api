@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['jamesbru.net', '127.0.0.1']
 
@@ -57,12 +57,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'lecturefivedemo.urls'
-
+'''
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
     )
-}
+}'''
 
 TEMPLATES = [
     {
