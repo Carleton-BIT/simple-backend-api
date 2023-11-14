@@ -8,13 +8,12 @@
 ![screenshot for adding interpreter](readme_assets/add-interpreter.PNG)
 5) Choose the default settings and click OK
 ![screenshot for virtualenv settings](readme_assets/confirm-interpreter.PNG)
-6) Then, you can install dependencies using PyCharm (django and python-decouple). Or, you can use the command line (`pip install django python-decouple`)
-![screenshot for adding dependencies](readme_assets/add-dependencies.png)
+6) Then, you can install dependencies using `pip install -r requirements.txt`
 7) Create a run configuration:
 ![edit run configs](readme_assets/edit-run-configuration.png)
 8) Configure it to run manage.py with the parameter runserver:
 ![finished run config](readme_assets/finished-run-configuration.png)
-9) In your project folder (lab-3-vcs-and-models/studentdemo) create a file called `.env`
+9) Create a file called `.env` in the lecture18-simple-backend-api folder
 10) Generate a secret key by running `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'` in the terminal. Copy the output.
 11) Edit `.env` (created in part 9) with a text editor like notepad, and add a line that says `SECRET_KEY="your-secret-key-here"`. Paste the output from part 10 into 'your-secret-key-here'.
 12) On the terminal, navigate to `lab-3-vcs-and-models/studentdemo` and run `python manage.py migrate`
