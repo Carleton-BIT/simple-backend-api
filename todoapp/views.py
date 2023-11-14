@@ -8,7 +8,7 @@ def index(request):
     tasks = Task.objects.all()
     form = TaskForm()
 
-    return render(request, 'index.html', {'tasks': tasks, 'form': form, 'browser': parse(user_agent).browser.family })
+    return render(request, 'index.html', {'tasks': tasks, 'form': form})
 
 def add_task(request):
     if request.method == 'POST':
