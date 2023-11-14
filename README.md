@@ -9,7 +9,6 @@
 5) Choose the default settings and click OK
 ![screenshot for virtualenv settings](readme_assets/confirm-interpreter.PNG)
 6) Then, you can install dependencies using `pip install -r requirements.txt`
-![screenshot for adding dependencies](readme_assets/add-dependencies.png)
 7) Create a run configuration:
 ![edit run configs](readme_assets/edit-run-configuration.png)
 8) Configure it to run manage.py with the parameter runserver:
