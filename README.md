@@ -2,9 +2,9 @@
 ## Steps to get this django app running locally
 
 1) Open a terminal and navigate to the folder you want to create your project in (e.g. `cd ~Documents/Code`)
-2) Clone this repository with `git clone https://github.com/Carleton-BIT/lecture-18-simple-backend-api.git`
-3) Open the repository with PyCharm. You can do this by going file->open and selecting the cloned folder called `lecture-18-simple-backend-api`
-4) Configure your project interpreter. Go to file->settings, and selecting Python Interpreter under `Project: lecture-18-simple-backend-api`, and clicking Add Interpreter->Add Local Interpreter
+2) Clone this repository with `git clone https://github.com/Carleton-BIT/ITEC4012-simple-backend-api.git`
+3) Open the repository with PyCharm. You can do this by going file->open and selecting the cloned folder called `ITEC4012-simple-backend-api`
+4) Configure your project interpreter. Go to file->settings, and selecting Python Interpreter under `Project: ITEC4012-simple-backend-api`, and clicking Add Interpreter->Add Local Interpreter
 ![screenshot for adding interpreter](readme_assets/add-interpreter.PNG)
 5) Choose the default settings and click OK
 ![screenshot for virtualenv settings](readme_assets/confirm-interpreter.PNG)
