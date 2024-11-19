@@ -10,13 +10,17 @@ from django.views.decorators.csrf import csrf_exempt
 from user_agents import parse
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from rest_framework import generics
 from django.http import JsonResponse
 from django.utils.html import mark_safe
 import time
-
-from .serializers import TaskSerializer
+from .serializers import TaskSerializer, UserSerializer
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class TaskList(APIView):
+    #Below can be used to allow unauth access
+    #permission_classes = [AllowAny]
+
     def get(self, request):
         tasks = Task.objects.all()
         serializer = TaskSerializer(tasks, many=True)
@@ -31,6 +35,9 @@ class TaskList(APIView):
             Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class TaskDetail(APIView):
+    #Below can be used to allow unauth access
+    #permission_classes = [AllowAny]
+
     def get(self, request, task_id):
         task = get_object_or_404(Task, pk=task_id)
         serializer = TaskSerializer(task)
@@ -54,6 +61,26 @@ class TaskDetail(APIView):
             serializer.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
         Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Simple authenticated view (for testing)
+class HelloWorldView(APIView):
+    def get(self, request):
+        return Response({'message': 'Hello, World!'})
+
+# views.py
+class UserCreateView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Note that the below is a shortform for the above (generics.CreateApiView is a helpful shortcut)
+#class UserCreateView(generics.CreateAPIView):
+#    queryset = User.objects.all()
+#    serializer_class = UserSerializer
 
 
 """
