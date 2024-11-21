@@ -9,18 +9,14 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.utils.html import mark_safe
 
-@csrf_exempt
 def index(request):
-    tasks = Task.objects.all()
+    tasks = Task.objects.filter(user=request.user)
     form = TaskForm()
 
     user_agent = request.META.get('HTTP_USER_AGENT', '')
-    if str(user_agent) == 'opensesame':
-        return HttpResponse('THE ANSWER TO THIS QUESTION IS "devotedraspberries"')
 
-    return render(request, 'index.html', {'tasks': tasks, 'form': form, 'browser': parse(user_agent).browser.family })
+    return render(request, 'index.html', {'tasks': tasks, 'form': form, 'browser': parse(user_agent).browser.family, 'user':user })
 
-@csrf_exempt
 def add_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
@@ -30,20 +26,17 @@ def add_task(request):
             task.description = mark_safe(form.cleaned_data['description'])
             task.save()
     return redirect('index')
-@csrf_exempt
 def toggle_task(request, task_id):
     task = Task.objects.get(pk=task_id)
     task.completed = not task.completed
     task.save()
     return redirect('index')
 
-@csrf_exempt
 def delete_task(request, task_id):
     task = Task.objects.get(pk=task_id)
     task.delete()
     return redirect('index')
 
-@csrf_exempt
 def edit_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
 
