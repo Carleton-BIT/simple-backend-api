@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Task
-from .forms import TaskForm
+from .forms import TaskForm, UserCreationForm
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 from user_agents import parse
@@ -8,22 +8,36 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.utils.html import mark_safe
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 
+def sign_up(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request,user)
+            return redirect('/')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration.html', {'form':form})
+
+
+@login_required
 def index(request):
     tasks = Task.objects.filter(user=request.user)
     form = TaskForm()
 
     user_agent = request.META.get('HTTP_USER_AGENT', '')
 
-    return render(request, 'index.html', {'tasks': tasks, 'form': form, 'browser': parse(user_agent).browser.family, 'user':user })
+    return render(request, 'index.html', {'tasks': tasks, 'form': form, 'browser': parse(user_agent).browser.family, 'user':request.user })
 
 def add_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
-            # Use mark_safe to prevent HTML escaping
             task = form.save(commit=False)
-            task.description = mark_safe(form.cleaned_data['description'])
+            task.user = request.user
             task.save()
     return redirect('index')
 def toggle_task(request, task_id):
