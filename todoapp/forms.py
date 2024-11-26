@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['description']
+        fields = ['description', 'icon']
 
 
 class RegisterForm(UserCreationForm):

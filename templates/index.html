@@ -11,6 +11,9 @@
         {% if not task.completed %}
         ☐
         {% endif %}
+        {% if task.icon %}
+        <img style="height:1em;margin-bottom:auto" src="/media/{{task.icon}}">
+        {% endif %}
         {{ task.description | safe }}
         - <a href="{% url 'toggle_task' task.id %}">Toggle</a>
         - <a href="{% url 'delete_task' task.id %}">Delete</a>
@@ -18,9 +21,10 @@
 {% endfor %}
 </ul>
 <h2>Add New Task</h2>
-<form action="{% url 'add_task' %}" method="post" onsubmit="return validateForm()">
+<form action="{% url 'add_task' %}" method="post" onsubmit="return validateForm()" enctype="multipart/form-data" >
+<!-- Note that it's CRITICAL to add enctype="multipart/form-data" to the form to support file upload -->
 {% csrf_token %}
-<input type="text" name="description" id="id_description" required><br>
+{{ form }}
 <button type="submit">Add Task</button>
 </form>
 

@@ -7,6 +7,7 @@ from django.db import models
 class Task(models.Model):
     description = models.CharField(max_length=4096)
     completed = models.BooleanField(default=False)
+    icon = models.ImageField(upload_to="task_icon", blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

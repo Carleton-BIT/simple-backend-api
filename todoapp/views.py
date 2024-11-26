@@ -34,12 +34,13 @@ def index(request):
 
 def add_task(request):
     if request.method == 'POST':
-        form = TaskForm(request.POST)
+        form = TaskForm(request.POST, request.FILES)
         if form.is_valid():
             task = form.save(commit=False)
             task.user = request.user
             task.save()
     return redirect('index')
+
 def toggle_task(request, task_id):
     task = Task.objects.get(pk=task_id)
     task.completed = not task.completed
