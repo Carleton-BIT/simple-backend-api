@@ -20,7 +20,7 @@ def sign_up(request):
             return redirect('/')
     else:
         form = UserCreationForm()
-    return render(request, 'registration.html', {'form':form})
+    return render(request, 'registration/registration.html', {'form':form})
 
 
 @login_required
@@ -30,7 +30,7 @@ def index(request):
 
     user_agent = request.META.get('HTTP_USER_AGENT', '')
 
-    return render(request, 'index.html', {'tasks': tasks, 'form': form, 'browser': parse(user_agent).browser.family, 'user':request.user })
+    return render(request, 'index.html', {'tasks': tasks, 'form': form, 'browser': parse(user_agent).browser.family, 'user':request.user})
 
 def add_task(request):
     if request.method == 'POST':
