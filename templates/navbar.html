@@ -1,6 +1,7 @@
 <header>
 {% load static %}
 <nav style="display:flex;gap:30px;align-items:center">
+    <img style="height:20px" src="{% static 'images/checkbox-logo.png' %}">
     <span>My website</span>
     <a href="{% url 'index' %}">Home</a>
     {% if user.is_authenticated %}
