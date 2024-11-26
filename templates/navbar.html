@@ -1,0 +1,9 @@
+<header>
+<nav style="display:flex;gap:30px;align-items:center">
+    <span>My website</span>
+    <a href="{% url 'index' %}">Home</a>
+    {% if user.is_authenticated %}
+    <form style="display:inline;margin-left:auto" action="{% url 'logout' %}" method="post">{% csrf_token %}<button type="submit">Log Out</button></form>
+    {% endif %}
+</nav>
+</header>

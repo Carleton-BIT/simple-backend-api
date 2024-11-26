@@ -1,7 +1,16 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 40px;
     background-color: #f4f4f4;
+}
+
+header {
+    background-color: #FFF;
+    margin:0px;
+    padding:10px;
+}
+
+main {
+    margin: 40px;
 }
 
 h1, h2 {
@@ -38,7 +47,9 @@ button {
     padding: 5px 15px;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 10px;
+}
+input {
+    margin-bottom:10px;
 }
 
 button:hover {

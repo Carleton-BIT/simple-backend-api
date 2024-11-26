@@ -1,38 +1,27 @@
-<!DOCTYPE html>
-{% load static %}
-
-<html>
-<head>
-    <title>To-Do List</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-    <h1>To-Do List</h1>
-    <h2>Welcome, {{ user }}</h2>
-    <form action="{% url 'logout' %}" method="post">
-      {% csrf_token %}
-      <button type="submit">Log Out</button>
-    </form>
-    <ul>
-    {% for task in tasks %}
-        <li>
-            {% if task.completed %}
-            ☑
-            {% endif %}
-            {% if not task.completed %}
-            ☐
-            {% endif %}
-            {{ task.description | safe }}
-            - <a href="{% url 'toggle_task' task.id %}">Toggle</a>
-            - <a href="{% url 'delete_task' task.id %}">Delete</a>
-        </li>
-    {% endfor %}
-    </ul>
+{% extends 'base.html' %}
+{% block title %}To-do List{% endblock %}
+{% block content %}
+<h2>Welcome, {{ user }}</h2>
+<ul>
+{% for task in tasks %}
+    <li>
+        {% if task.completed %}
+        ☑
+        {% endif %}
+        {% if not task.completed %}
+        ☐
+        {% endif %}
+        {{ task.description | safe }}
+        - <a href="{% url 'toggle_task' task.id %}">Toggle</a>
+        - <a href="{% url 'delete_task' task.id %}">Delete</a>
+    </li>
+{% endfor %}
+</ul>
 <h2>Add New Task</h2>
 <form action="{% url 'add_task' %}" method="post" onsubmit="return validateForm()">
-    {% csrf_token %}
-    <input type="text" name="description" id="id_description" required><br>
-    <button type="submit">Add Task</button>
+{% csrf_token %}
+<input type="text" name="description" id="id_description" required><br>
+<button type="submit">Add Task</button>
 </form>
 
 <script>
@@ -52,5 +41,4 @@
 
 <hr>
     <footer>Hey there, you are using {{ browser }}</footer>
-</body>
-</html>
+{% endblock %}
