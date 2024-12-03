@@ -12,7 +12,7 @@
         ☐
         {% endif %}
         {% if task.icon %}
-        <img style="height:1em;margin-bottom:auto" src="/media/{{task.icon}}">
+        <img style="height:1em;margin-bottom:auto" src="/media/{{task.thumbnail}}">
         {% endif %}
         {{ task.description | safe }}
         - <a href="{% url 'toggle_task' task.id %}">Toggle</a>

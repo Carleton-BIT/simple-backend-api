@@ -27,6 +27,9 @@ def sign_up(request):
 def index(request):
     tasks = Task.objects.filter(user=request.user)
     form = TaskForm()
+    for task in tasks:
+        if task.icon:
+            print(task.thumbnail)
 
     user_agent = request.META.get('HTTP_USER_AGENT', '')
 
